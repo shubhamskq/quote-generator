@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- <script src="C:/Users/punit/Desktop/Javascript/index.js"></script> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet" />
+    <title>Quote Generator</title>
+</head>
+
+<body>
+    <div class="quote-box">
+        <h1>Quote of the day</h1>
+        <blockquote class=".quote">Loading...</blockquote>
+        <span class=".author">Loading...</span>
+        <div class="btn-div">
+            <button class="next">New Quote</button>
+            <button onclick="tweet()"><img src="images/twitter.png" />Tweet</button>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+
+    const apiurl = "https://api.quotable.io/quotes/random";
+    const nextBox = document.querySelector(".btn-div .next");
+    var content = '';
+    var author = '';
+    async function getrandomQuote() {
+        const response = await fetch(apiurl);
+        const data = await response.json();
+        console.log(data);
+        content = data[0].content;
+        author = data[0].author;
+        document.querySelector(".quote-box blockquote").innerHTML = data[0].content;
+        document.querySelector(".quote-box span").innerHTML = data[0].author;
+    }
+
+    nextBox.addEventListener("click", () => {
+        getrandomQuote();
+    });
+    getrandomQuote();
+    function tweet() {
+        window.open("https://twitter.com/intent/tweet?text=" + content + " --- by" + author, "Tweet Window", "width=800, height=500");
+    }
+</script>
